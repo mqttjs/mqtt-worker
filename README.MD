@@ -1,10 +1,23 @@
 # mqttWorker
-This project is wraps for mqtt.js to run a bundled (browserify) version for the browser within a Web-Worker 
+This project is wraps for mqtt.js to run a bundled (browserify) version for the browser within a Web-Worker. Currently 
+this project is still prototypical and needs some work, feel free to help. 
 
-# Build 
+## Build 
+```
+npm install
+```
 
-browserify -r ./lib/client.js:MqttWorker > dist/MqttWorker.js 
 
+```
+grunt 
+```
+
+or
+
+```
+browserify -r ./lib/client.js:MqttWorker > dist/MqttWorker.js
+browserify -r mqtt > dist/MqttBundle.js
+```
 
 <a name="contributing"></a>
 ## Contributing
