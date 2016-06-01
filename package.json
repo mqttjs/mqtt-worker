@@ -1,5 +1,5 @@
 {
-  "name": "mqtt-sw",
+  "name": "mqtt-worker",
   "version": "1.0.0",
   "description": "",
   "main": "mqttWorker.js",

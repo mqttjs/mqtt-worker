@@ -1,4 +1,4 @@
-# mqttWorker is an OPEN Open Source Project
+# mqtt-worker is an OPEN Open Source Project
 
 -----------------------------------------
 
