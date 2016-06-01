@@ -59,7 +59,6 @@ var serviceWorker = {
         return addCallbacks(mqtt.connect.apply(null, args));
     },
 
-
     /**
      * A callback method for the 'connect' event. Connect events are only fired when used with a
      * SharedServiceWorker.
@@ -68,7 +67,7 @@ var serviceWorker = {
     connect: function (event) {
         var port = event.ports[0];
         // this opens the connection to the calling site, the spec states that it is not
-        // nessesary to call port.start, as the port will be opened on the first message
+        // necessary to call port.start, as the port will be opened on the first message
         // anyway
         port.start();
         port.addEventListener('message', this.message.bind(this));
@@ -156,7 +155,6 @@ var event = 'connect';
 if(worker) {
     event = 'message';
 }
-//self.addEventListener('message', serviceWorker.message.bind(serviceWorker));
-//self.addEventListener('connect', serviceWorker.connect.bind(serviceWorker));
+// binding to the 'message'/'connect' event at the serverWorker
 self.addEventListener(event, serviceWorker[event].bind(serviceWorker));
 
