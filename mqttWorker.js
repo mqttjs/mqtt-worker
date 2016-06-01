@@ -1,7 +1,7 @@
 'use strict';
 
-importScripts('mqtt-elements-bundle.js');
-//importScripts('lib/util.js');
+importScripts('dist/MqttBundle.js');
+//importScripts('dist/MqttBundle.min.js');
 
 // detect if we are a Worker or SharedWorker
 var worker = typeof self.postMessage === 'function' || false;
@@ -127,7 +127,6 @@ var serviceWorker = {
             case 'subscribe':
                 // the client lib always fills up the length to 3 if a callback function is given on a 'subscribe' call
                 if(arr.length === 3) {
-
                     callback = this.generateCallbackFunction(arr.pop(), port);
                     arr.push(callback);
                 }
