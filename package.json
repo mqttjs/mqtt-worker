@@ -1,0 +1,25 @@
+{
+  "name": "mqtt-sw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mqttWorker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "inherits": "^2.0.1",
+    "lodash": "^4.6.1",
+    "lodash.map": "^4.2.1"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "load-grunt-tasks": "^3.4.1",
+    "mocha": "^2.4.5",
+    "should": "^8.2.2"
+  }
+}
