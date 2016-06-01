@@ -57,12 +57,6 @@ var serviceWorker = {
         }
 
         return addCallbacks(mqtt.connect.apply(null, args));
-        //.on('close', this.generateMessageCallback(port, 'close'))
-        //.on('connect', this.generateMessageCallback(port, 'connect'))
-        //.on('error', this.generateMessageCallback(port, 'error'))
-        //.on('message', this.generateMessageCallback(port, 'message'))
-        //.on('offline', this.generateMessageCallback(port, 'offline'))
-        //.on('reconnect', this.generateMessageCallback(port, 'reconnect'));
     },
 
 
@@ -72,8 +66,6 @@ var serviceWorker = {
      * @param {Object} event that triggered the connect
      */
     connect: function (event) {
-        console.log('connect', arguments);
-
         var port = event.ports[0];
         // this opens the connection to the calling site, the spec states that it is not
         // nessesary to call port.start, as the port will be opened on the first message
@@ -113,14 +105,13 @@ var serviceWorker = {
         var client = this.clients[port];
 
         switch (event.data.type) {
-
             case 'connect':
                 // the wrapping lib adds the document.URL as the last argument
                 document.URL = arr.pop();
                 try {
                     this.clients[port] = this.createClient.apply(this, [arr, port]);
-                } catch (err){
-                    console.log("err", err);
+                } catch (err) {
+                    console.error(err);
                 }
                 port.postMessage({type: 'options', args: this.clients[port].options});
                 break;
@@ -150,17 +141,22 @@ var serviceWorker = {
             case 'unsubscribe':
                 client[event.data.type].apply(client, arr);
                 break;
+            case 'end':
+                client[event.data.type].apply(client, arr);
+                // TODO maybe we have to return connected=false
+                //delete this.clients[port];
+                break;
             default:
                 port.postMessage({type: 'error', args: ['Method ' + event.data.type + 'not supported.']});
         }
     }
 };
 
-
-
+var event = 'connect';
 if(worker) {
-    self.addEventListener('message', serviceWorker.message.bind(serviceWorker));
-} else {
-    self.addEventListener('connect', serviceWorker.connect.bind(serviceWorker));
+    event = 'message';
 }
+//self.addEventListener('message', serviceWorker.message.bind(serviceWorker));
+//self.addEventListener('connect', serviceWorker.connect.bind(serviceWorker));
+self.addEventListener(event, serviceWorker[event].bind(serviceWorker));
 
