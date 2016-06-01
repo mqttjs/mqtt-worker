@@ -7,6 +7,27 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
+        uglify: {
+            options: {
+                sourceMap: true,
+                mangleProperties: true,
+                reserveDOMCache: true,
+                sourceMapIncludeSources: true,
+                nameCache: 'tmp/grunt-uglify-cache.json',
+                mangle: {}
+            },
+            mqttWorker: {
+                files: {
+                    'dist/MqttWorker.min.js': ['dist/MqttWorker.js']
+                }
+            },
+            mqttBundle: {
+                files: {
+                    'dist/MqttBundle.min.js': ['dist/MqttBundle.js']
+                }
+            }
+        },
+
         watch: {
             dist: {
                 files: 'lib/client.js',
@@ -25,6 +46,11 @@ module.exports = function (grunt) {
                     watch: true
                 }
             },
+            mqtt: {
+                src: "./node_modules/mqtt/mqtt.js",
+                dest: "./dist/MqttBundle.js"
+            },
+
             watch: {
                 src: "./lib/client.js:MqttWorker",
                 dest: "./dist/MqttWorker.js",
@@ -37,4 +63,8 @@ module.exports = function (grunt) {
 
         }
     });
+
+
+    grunt.task.registerTask('default', ['browserify:dist', 'browserify:mqtt', 'uglify']);
+
 };
