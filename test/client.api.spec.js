@@ -36,26 +36,26 @@ describe("MqttWorker", function () {
             caPaths: ['../node_modules/mqtt/test/helpers/public-csr.pem']
         };
 
-        it('should throw an error when it is called with cert and key set and protocol other than allowed: mqtt,mqtts,ws,wss', function () {
-            (function () {
-                sslOpts2.protocol = 'UNKNOWNPROTOCOL';
-                var c = mqtt.connect(sslOpts2);
-                c.end();
-            }).should.throw();
-        });
+        //it('should throw an error when it is called with cert and key set and protocol other than allowed: mqtt,mqtts,ws,wss', function () {
+        //    (function () {
+        //        sslOpts2.protocol = 'UNKNOWNPROTOCOL';
+        //        var c = mqtt.connect(sslOpts2);
+        //        c.end();
+        //    }).should.throw();
+        //});
 
-        it('BBBB should return a MqttClient with wss set when connect is called key and cert set and protocol ws', function (done) {
-            sslOpts2.protocol = 'ws';
-            var c = mqtt.connect(sslOpts2)
-                .on('options', function () {
-                    c.should.be.instanceOf(mqttsw);
-                    c.options.should.have.property('protocol', 'wss');
-                    done();
-                }).on('error', function () {
-
-                });
-
-        });
+        //it('should return a MqttClient with wss set when connect is called key and cert set and protocol ws', function (done) {
+        //    sslOpts2.protocol = 'ws';
+        //    var c = mqtt.connect(sslOpts2)
+        //        .on('options', function () {
+        //            c.should.be.instanceOf(mqttsw);
+        //            c.options.should.have.property('protocol', 'wss');
+        //            done();
+        //        }).on('error', function () {
+        //
+        //        });
+        //
+        //});
 
 
         it('should return an MqttClient when connect is called with ws:// url', function () {
