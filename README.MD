@@ -1,12 +1,32 @@
 # mqtt-worker
-This project wraps mqtt.js to run a bundled (browserify) version for the browser within a Web-Worker. Currently 
-this project is still prototypical and needs some work, feel free to help. 
+This project wraps mqtt.js to run a bundled (browserify) version for the browser within a [Web Worker](https://www.w3.org/TR/workers/). Currently 
+this project is still prototypical and needs some work, feel free to help.
+ 
+## Usage
+
+```
+bower install --save mqttjs/mqtt-worker
+```
+
+```html
+<script src="bower_components/mqtt-wrapper/dist/MqttWorker.js"></script>
+
+<script>
+var MqttWorker = require('MqttWorker');
+var mqtt = new MqttWorker("../mqttWorker.js", document.URL, true);
+// use the same API on mqtt available from https://github.com/mqttjs/MQTT.js  
+var client = mqtt.connect("ws://localhost:3005");
+</script>
+
+```
+
+## Debug / Inspect 
+In Chrome Web Workers can be debuged at [chrome://inspect/#workers](chrome://inspect/#workers).  
 
 ## Build 
 ```
 npm install
 ```
-
 
 ```
 grunt 
