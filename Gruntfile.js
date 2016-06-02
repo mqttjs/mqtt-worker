@@ -10,7 +10,6 @@ module.exports = function (grunt) {
         uglify: {
             options: {
                 sourceMap: true,
-                mangleProperties: true,
                 reserveDOMCache: true,
                 sourceMapIncludeSources: true,
                 nameCache: 'tmp/grunt-uglify-cache.json',
@@ -48,7 +47,12 @@ module.exports = function (grunt) {
             },
             mqtt: {
                 src: "./node_modules/mqtt/mqtt.js",
-                dest: "./dist/MqttBundle.js"
+                dest: "./dist/MqttBundle.js",
+                options: {
+                    alias: {
+                        'mqtt': './node_modules/mqtt/mqtt.js'
+                    }
+                }
             },
 
             watch: {
