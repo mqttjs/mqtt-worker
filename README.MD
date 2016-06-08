@@ -1,3 +1,5 @@
+![Travis Build](https://travis-ci.org/mqttjs/mqtt-worker.svg?branch=master)
+
 # mqtt-worker
 This project wraps mqtt.js to run a bundled (browserify) version for the browser within a [Web Worker](https://www.w3.org/TR/workers/). Currently 
 this project is still prototypical and needs some work, feel free to help.
