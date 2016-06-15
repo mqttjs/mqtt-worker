@@ -4,7 +4,7 @@
   "description": "",
   "main": "mqttWorker.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "author": "",
   "license": "MIT",
@@ -19,8 +19,13 @@
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.5",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-mocha": "^1.0.1",
     "load-grunt-tasks": "^3.4.1",
-    "mocha": "^2.4.5",
+    "mocha": "^2.5.3",
     "should": "^8.2.2"
   }
 }

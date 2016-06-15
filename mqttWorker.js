@@ -1,7 +1,6 @@
 'use strict';
 
 importScripts('dist/MqttBundle.js');
-//importScripts('dist/MqttBundle.min.js');
 
 // detect if we are a Worker or SharedWorker
 var worker = typeof self.postMessage === 'function' || false;
@@ -25,14 +24,39 @@ var util = {
 // the proper URL is supplied via client.connect as the last argument
 var document = {};
 
-var serviceWorker = {
+var mqttWorker = {
     // map for the clients eg. portN => clientN
     clients: {},
     // a scope wrapping function to generate different postMessages to the worker client
     generateMessageCallback: function (port, type) {
         return function () {
             // type is something like 'publish', 'subscribe', 'message' or 'callback'
-            port.postMessage({type: type, args: arguments});
+            // posting arguments can fail to du cloning the object. We might have to reduce the arguments we send back
+            // to the browser
+
+            switch (arguments.length) {
+                case 0:
+                    port.postMessage({type: type});
+                    break;
+                case 1:
+                    port.postMessage({type: type, args: {0: arguments[0]}});
+                    break;
+                case 2:
+                    port.postMessage({type: type, args: {0: arguments[0],1: arguments[1]}});
+                    break;
+                case 3:
+                    //port.postMessage({type: type, args: {0: arguments[0],1: arguments[1]}});
+                    port.postMessage({type: type, args: {0: arguments[0],1: arguments[1],2: arguments[2]}});
+                    break;
+                default:
+                    port.postMessage({type: type, args: {0: arguments[0]}});
+                    //port.postMessage({type: type, args: arguments});
+            }
+
+            //if(type === 'close') {
+            //    port.postMessage({type: type});
+            //} else {
+            //}
         }
     },
 
@@ -44,7 +68,6 @@ var serviceWorker = {
      */
     createClient: function (args, port) {
         var generateMessageCallback = this.generateMessageCallback;
-
 
         function addCallbacks(mqtt) {
 
@@ -61,7 +84,7 @@ var serviceWorker = {
 
     /**
      * A callback method for the 'connect' event. Connect events are only fired when used with a
-     * SharedServiceWorker.
+     * SharedWebWorker.
      * @param {Object} event that triggered the connect
      */
     connect: function (event) {
@@ -100,6 +123,7 @@ var serviceWorker = {
         } else {
             port = event.srcElement;
         }
+
         var callback;
         var client = this.clients[port];
 
@@ -110,8 +134,9 @@ var serviceWorker = {
                 try {
                     this.clients[port] = this.createClient.apply(this, [arr, port]);
                 } catch (err) {
-                    console.error(err);
+                    //console.error(err);
                 }
+                // sending back the options set on the client
                 port.postMessage({type: 'options', args: this.clients[port].options});
                 break;
 
@@ -155,5 +180,5 @@ if(worker) {
     event = 'message';
 }
 // binding to the 'message'/'connect' event at the serverWorker
-self.addEventListener(event, serviceWorker[event].bind(serviceWorker));
+self.addEventListener(event, mqttWorker[event].bind(mqttWorker));
 
